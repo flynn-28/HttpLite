@@ -149,11 +149,11 @@ int main() {
 
 #### On Linux
 ```bash
-g++ -o main main.cpp -I<path-to-include-directory> -L<path-to-lib-directory> -lHttpRequest -lssl -lcrypto
+g++ -o main main.cpp -I<path-to-include-directory> -L<path-to-lib-directory> -lHttpLite -lssl -lcrypto
 ```
 #### On Windows using MinGW
 ```bash
-g++ -o main.exe main.cpp -I<path-to-include-directory> -L<path-to-lib-directory> -lHttpRequest -lssl -lcrypto -lws2_32
+g++ -o main.exe main.cpp -I<path-to-include-directory> -L<path-to-lib-directory> -lHttpLite -lssl -lcrypto -lws2_32
 ```
 #### On Windows using Visual Studio
 1. Add HttpLite.lib and OpenSSL libraries to the project linker input
