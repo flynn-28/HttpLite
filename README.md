@@ -19,7 +19,7 @@
 
 
 ## Overview
-HttpRequest is a C++ library that is cross platform and light weight. It is designed for making HTTP requests, supporting ``GET`` and ``POST`` requests over ``HTTP`` and ``HTTPS`` using [OpenSSL](https://github.com/openssl/openssl)
+HttpLite is a C++ library that is cross platform and light weight. It is designed for making HTTP requests, supporting ``GET`` and ``POST`` requests over ``HTTP`` and ``HTTPS`` using [OpenSSL](https://github.com/openssl/openssl)
 
 ## Installation
 You can install HttpLite by downloading a precompiled library for your system or building it from source.
