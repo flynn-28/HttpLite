@@ -8,14 +8,15 @@
     - [Linux/MacOS](#linuxmacos)<br>
     - [Windows - MinGW](#windows---mingw) 
 3. [Include Library in Project](#including-library-in-project)
-4. [Usage Examples](#usage-examples)<br>
+4. [Methods](#methods)
+5. [Usage Examples](#usage-examples)<br>
     - [GET Request](#get-request) <br>
     - [POST Request](#post-request)
-5. [Compile and Link](#compile-and-link)
+6. [Compile and Link](#compile-and-link)
     - [Linux](#on-linux) <br>
     - [Windows - MinGW](#on-windows-using-mingw)
     - [Windows - Visual Studio](#on-windows-using-visual-studio)
-6. [Support](#support)
+7. [Support](#support)
 
 
 ## Overview
@@ -102,6 +103,45 @@ Add the following line to your project:
 -include/ -Llib/ -lHttpLite -lssl -lcrypto -lws2_32
 ```
 
+## Methods
+
+### Constructors
+* `HttpLite()`
+        - This initializes the HttpLite object with default values and initializes sockets.
+
+### Destructors
+* `~HttpLite()`
+        - This uninitializes the HttpLite object and cleans up resources by closing sockets
+
+### Public Methods
+* `void setUrl(const std::string& url)`
+        - sets request url. accepts string
+* `void setMethod(Method method)`
+        - sets request method. accepts enum. set to `GET` or `POST`
+* `void setPostData(const std::string& data)`
+        - sets post request payload. accepts string
+* `std::string perform()`
+        - performs http request and returns response
+
+
+### Private Methods
+* `void initializeSockets()`
+        - initialize sockets
+* `void cleanupSockets()`
+        - cleans up sockets after use
+* `std::string parseHost(const std::string& url)`
+        - extract host from url
+* `std::string parsePath(const std::string& url)`
+        - extract endpoint from url
+* `int connectToHost(const std::string& host, int port, bool useSSL)`
+        - connects to host
+* `std::string buildRequest(const std::string& host, const std::string& path)`
+        -  create request based on host, path, method, and content
+* `std::string sendRequest(int socket, const std::string& request, bool useSSL)`
+        - send request. 
+* `std::string extractBody(const std::string& response)`
+        - extract body from response based on delimiter
+
 ## Usage Examples
 
 ### GET Request
@@ -161,3 +201,4 @@ g++ -o main.exe main.cpp -I<path-to-include-directory> -L<path-to-lib-directory>
 
 ## Support
 For support, submit and issue or pull request, or email me at [msmc.dev@gmail.com](mailto:msmc.dev@gmail.com).
+
