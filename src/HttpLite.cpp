@@ -77,14 +77,18 @@ std::string HttpLite::buildRequest(const std::string& host, const std::string& p
     std::ostringstream request;
     request << (method == GET ? "GET" : "POST") << " " << path << " HTTP/1.1\r\n";
     request << "Host: " << host << "\r\n";
+    
     if (method == POST) {
-        request << "Content-Length: " << postData.size() << "\r\n";
-        request << "Content-Type: application/x-www-form-urlencoded\r\n";
+        request << "Content-Length: " << postData.size() << "\r\n"; 
+        request << "Content-Type: application/x-www-form-urlencoded\r\n"; 
     }
-    request << "Connection: close\r\n\r\n";
+
+    request << "Connection: close\r\n\r\n"; 
+
     if (method == POST) {
-        request << postData;
+        request << postData; 
     }
+
     return request.str();
 }
 
@@ -105,23 +109,31 @@ std::string HttpLite::sendRequest(int socket, const std::string& request, bool u
         }
 
         SSL_write(ssl, request.c_str(), request.size());
-        char buffer[8192];
-        int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
-        buffer[bytes] = '\0';
 
+        std::string response;
+        char buffer[8192];
+        int bytes;
+        while ((bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1)) > 0) {
+            buffer[bytes] = '\0'; 
+            response.append(buffer);
+        }
+
+        SSL_shutdown(ssl);
         SSL_free(ssl);
         SSL_CTX_free(ctx);
-        return std::string(buffer);
+        return response;
     } else {
         send(socket, request.c_str(), request.size(), 0);
+
+        std::string response;
         char buffer[8192];
-#if defined(_WIN32) || defined(_WIN64)
-        int bytes = recv(socket, buffer, sizeof(buffer) - 1, 0);
-#else
-        int bytes = read(socket, buffer, sizeof(buffer) - 1);
-#endif
-        buffer[bytes] = '\0';
-        return std::string(buffer);
+        int bytes;
+        while ((bytes = recv(socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
+            buffer[bytes] = '\0'; 
+            response.append(buffer);
+        }
+
+        return response;
     }
 }
 
@@ -146,5 +158,5 @@ std::string HttpLite::perform() {
     close(sock);
 #endif
 
-    return extractBody(response);
+    return extractBody(response); 
 }
